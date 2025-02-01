@@ -1,6 +1,6 @@
+use cloudwatch_viewer::logging_table::LoggingTable;
 use cloudwatch_viewer::utils::constants::{LOGGING_TABLE_NAME, LOG_GROUP_NAME_SECRET, REGION};
 use cloudwatch_viewer::utils::datafusion::{df_plan_to_table, write_df_to_file};
-use cloudwatch_viewer::LoggingTable;
 use cloudwatch_viewer::{handler, utils::aws::get_aws_client};
 
 use color_eyre::Result;
