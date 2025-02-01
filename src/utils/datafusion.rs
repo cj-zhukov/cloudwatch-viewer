@@ -1,6 +1,7 @@
 use std::sync::Arc;
 
-use color_eyre::Result;
+use crate::error::ClouWatchViewerError;
+
 use datafusion::{
     arrow::datatypes::Schema, datasource::ViewTable, logical_expr::LogicalPlan,
     parquet::arrow::AsyncArrowWriter, prelude::*,
@@ -12,13 +13,13 @@ pub async fn df_plan_to_table(
     ctx: &SessionContext,
     plan: LogicalPlan,
     table_name: &str,
-) -> Result<()> {
+) -> Result<(), ClouWatchViewerError> {
     let view = ViewTable::try_new(plan, None)?;
     ctx.register_table(table_name, Arc::new(view))?;
     Ok(())
 }
 
-pub async fn write_df_to_file(df: DataFrame, file_path: &str) -> Result<()> {
+pub async fn write_df_to_file(df: DataFrame, file_path: &str) -> Result<(), ClouWatchViewerError> {
     let mut buf = vec![];
     let schema = Schema::from(df.clone().schema());
     let mut stream = df.execute_stream().await?;

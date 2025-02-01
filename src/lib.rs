@@ -1,12 +1,14 @@
 pub mod logging_table;
+pub mod error;
 pub mod utils;
 
 use logging_table::LoggingTable;
+use crate::error::ClouWatchViewerError;
 
 use aws_sdk_cloudwatchlogs::Client;
 use color_eyre::Result;
 
-pub async fn handler(client: Client, log_group_name: &str) -> Result<Vec<LoggingTable>> {
+pub async fn handler(client: Client, log_group_name: &str) -> Result<Vec<LoggingTable>, ClouWatchViewerError> {
     let log_streams = client
         .describe_log_streams()
         .log_group_name(log_group_name)
@@ -47,7 +49,7 @@ async fn processs_log(
     last_event_timestamp: Option<i64>,
     last_ingestion_time: Option<i64>,
     start_from_head: bool,
-) -> Result<Vec<LoggingTable>> {
+) -> Result<Vec<LoggingTable>, ClouWatchViewerError> {
     let log_events = client
         .get_log_events()
         .log_group_name(log_group_name)
