@@ -1,7 +1,13 @@
 use std::sync::Arc;
 
-use datafusion::{arrow::{array::{Int64Array, RecordBatch, StringArray}, datatypes::{DataType, Field, Schema}}, prelude::*};
 use color_eyre::Result;
+use datafusion::{
+    arrow::{
+        array::{Int64Array, RecordBatch, StringArray},
+        datatypes::{DataType, Field, Schema},
+    },
+    prelude::*,
+};
 
 // i64 expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC
 #[derive(Debug)]
@@ -25,17 +31,17 @@ impl LoggingTable {
         last_ingestion_time: Option<i64>,
         timestamp: Option<i64>,
         message: Option<String>,
-        ingestion_time: Option<i64>,    
+        ingestion_time: Option<i64>,
     ) -> Self {
-        Self { 
-            log_stream_name, 
-            log_creation_time, 
-            first_event_timestamp, 
-            last_event_timestamp, 
-            last_ingestion_time, 
-            timestamp, 
-            message, 
-            ingestion_time  
+        Self {
+            log_stream_name,
+            log_creation_time,
+            first_event_timestamp,
+            last_event_timestamp,
+            last_ingestion_time,
+            timestamp,
+            message,
+            ingestion_time,
         }
     }
 

@@ -16,18 +16,16 @@ pub async fn handler(client: Client, log_group_name: &str) -> Result<Vec<Logging
     let mut tasks = vec![];
     for log_stream in log_streams.log_streams() {
         if let Some(log_stream_name) = log_stream.log_stream_name() {
-            let task = tokio::spawn(
-                processs_log(
-                    client.clone(), 
-                    log_group_name.to_string(), 
-                    log_stream_name.to_string(), 
-                    log_stream.creation_time, 
-                    log_stream.first_event_timestamp, 
-                    log_stream.last_event_timestamp, 
-                    log_stream.last_ingestion_time, 
-                    true,
-                )
-            );
+            let task = tokio::spawn(processs_log(
+                client.clone(),
+                log_group_name.to_string(),
+                log_stream_name.to_string(),
+                log_stream.creation_time,
+                log_stream.first_event_timestamp,
+                log_stream.last_event_timestamp,
+                log_stream.last_ingestion_time,
+                true,
+            ));
             tasks.push(task);
         }
     }
@@ -61,13 +59,13 @@ async fn processs_log(
     let mut res = vec![];
     for event in log_events.events() {
         let logging_table = LoggingTable::new(
-            log_stream_name.clone(), 
-            log_creation_time, 
-            first_event_timestamp, 
-            last_event_timestamp, 
-            last_ingestion_time, 
-            event.timestamp, 
-            event.message.clone(), 
+            log_stream_name.clone(),
+            log_creation_time,
+            first_event_timestamp,
+            last_event_timestamp,
+            last_ingestion_time,
+            event.timestamp,
+            event.message.clone(),
             event.ingestion_time,
         );
         res.push(logging_table);

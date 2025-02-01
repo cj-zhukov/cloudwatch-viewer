@@ -1,4 +1,4 @@
-use aws_config::{BehaviorVersion, Region, retry::RetryConfig};
+use aws_config::{retry::RetryConfig, BehaviorVersion, Region};
 use aws_sdk_cloudwatchlogs::{config::Builder, Client};
 
 use super::constants::AWS_MAX_RETRIES;
@@ -15,6 +15,6 @@ pub async fn get_aws_client(region: &str) -> Client {
         .retry_config(RetryConfig::standard().with_max_attempts(AWS_MAX_RETRIES));
 
     let config = config_builder.build();
-   
+
     Client::from_conf(config)
 }

@@ -1,9 +1,12 @@
 use std::sync::Arc;
 
 use color_eyre::Result;
-use datafusion::{arrow::datatypes::Schema, datasource::ViewTable, logical_expr::LogicalPlan, parquet::arrow::AsyncArrowWriter, prelude::*};
-use tokio_stream::StreamExt;
+use datafusion::{
+    arrow::datatypes::Schema, datasource::ViewTable, logical_expr::LogicalPlan,
+    parquet::arrow::AsyncArrowWriter, prelude::*,
+};
 use tokio::{fs::File, io::AsyncWriteExt};
+use tokio_stream::StreamExt;
 
 pub async fn df_plan_to_table(
     ctx: &SessionContext,

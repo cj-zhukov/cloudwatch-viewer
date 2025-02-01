@@ -12,8 +12,8 @@ pub mod env {
 
 pub static LOG_GROUP_NAME_SECRET: LazyLock<String> = LazyLock::new(|| {
     dotenv().ok();
-    let secret = std_env::var(env::LOG_GROUP_NAME_ENV_VAR)
-        .expect("LOG_GROUP_NAME_ENV_VAR must be set.");
+    let secret =
+        std_env::var(env::LOG_GROUP_NAME_ENV_VAR).expect("LOG_GROUP_NAME_ENV_VAR must be set.");
     if secret.is_empty() {
         panic!("LOG_GROUP_NAME_ENV_VAR must not be empty.");
     }

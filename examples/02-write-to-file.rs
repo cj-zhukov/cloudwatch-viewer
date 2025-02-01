@@ -14,7 +14,9 @@ async fn main() -> Result<()> {
     let records = handler(client, &LOG_GROUP_NAME_SECRET).await?;
     let df = LoggingTable::to_df(&ctx, &records).await?;
     df_plan_to_table(&ctx, df.logical_plan().clone(), LOGGING_TABLE_NAME).await?;
-    let res = ctx.sql(&format!("select * from {LOGGING_TABLE_NAME}")).await?;
+    let res = ctx
+        .sql(&format!("select * from {LOGGING_TABLE_NAME}"))
+        .await?;
     write_df_to_file(res, "logging.parquet").await?;
     Ok(())
 }
